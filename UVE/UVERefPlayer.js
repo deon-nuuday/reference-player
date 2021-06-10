@@ -668,8 +668,34 @@ function bulkMetadataHandler(event) {
     console.log("Bulk TimedMetadata : " + JSON.stringify(event));
 }
 
+function sendRequestPost(data, action) {
+    console.log("inside PostMethod");
+    let xhr = new XMLHttpRequest();
+    let url = 'http://192.168.118.109/jsonrpc';
+    xhr.open(action, url);
+    var postResult;
+    xhr.onreadystatechange = function () {
+        if ((xhr.status == 200) && (xhr.readyState == xhr.DONE)) {
+            console.log("[postRqst] _____________innerFunctionspeed postData ", url);
+            console.log("[postRqst] _____________innerFunctionspeed response ", xhr.responseText);
+            postResult = xhr.responseText;
+        }
+        else {
+            postResult = xhr.responseText;
+        }
+    }
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.setRequestHeader('Content-Type', 'text/json');
+    xhr.send(data);
+    return postResult;
+}
 
 function createAAMPPlayer(){
+    let tempData = sendRequestPost('{"jsonrpc":"2.0","id":"3","method": "WebKitBrowser.1.aampjsbindings","params": true}', 'POST');
+    setTimeout(function delay() {
+        console.log("=== Delay after sendRequestPost===")
+    }, 10000);
+    console.log("JSON response ", tempData);
     var newPlayer = new AAMPPlayer("UVE-Ref-Player");
     newPlayer.addEventListener("playbackStateChanged", playbackStateChanged);
     newPlayer.addEventListener("playbackCompleted", mediaEndReached);

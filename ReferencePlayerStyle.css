@@ -19,7 +19,7 @@
 
 body{
     margin:0;
-    background-image: linear-gradient(to right, #20E2D7 , #F9FEA5);
+    background-color: transparent;
 }
 
 .header {
